@@ -16,22 +16,22 @@ echo "--- Committing local changes... ---"
 git commit -am "added gitmerge for git automation"
 echo "--- Changes committed successfully. ---"
 
-# 2. Switch to the local 'develop' branch
-echo "--- Switching to the 'develop' branch... ---"
-git checkout develop
+# 2. Switch to the local 'master' branch
+echo "--- Switching to the 'master' branch... ---"
+git checkout master
 
-# 3. Pull the latest changes from the remote 'develop' branch
-echo "--- Pulling latest changes from origin/develop... ---"
-git pull origin develop
-echo "--- 'develop' branch is up-to-date. ---"
+# 3. Pull the latest changes from the remote 'master' branch
+echo "--- Pulling latest changes from origin/master... ---"
+git pull origin master
+echo "--- 'master' branch is up-to-date. ---"
 
 # 4. Switch back to the original local branch
 echo "--- Switching back to the '$CURRENT_BRANCH' branch... ---"
 git checkout "$CURRENT_BRANCH"
 
-# 5. Merge the updated 'develop' branch into the current branch
-echo "--- Merging 'develop' into '$CURRENT_BRANCH'... ---"
-git merge develop
+# 5. Merge the updated 'master' branch into the current branch
+echo "--- Merging 'master' into '$CURRENT_BRANCH'... ---"
+git merge master
 echo "--- Merge complete. ---"
 
 # 6. Push the updated local branch to the remote repository
