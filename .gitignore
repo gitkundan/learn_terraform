@@ -38,3 +38,6 @@ Thumbs.db
 
 # Lock file
 .terraform.lock.hcl
+
+# Secrets
+*.pem
