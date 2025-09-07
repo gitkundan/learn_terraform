@@ -19,7 +19,7 @@ echo "--- Currently on branch: $CURRENT_BRANCH ---"
 
 # 1. Commit local changes
 echo "--- Committing local changes... ---"
-git commit -am "placeholder"
+git diff --quiet || git commit -am "placeholder"
 echo "--- Changes committed successfully. ---"
 
 # 1b. push local changes to remote branch tracking local branch
