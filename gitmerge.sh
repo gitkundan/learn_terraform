@@ -16,10 +16,10 @@ echo "--- Committing local changes... ---"
 git commit -am "placeholder"
 echo "--- Changes committed successfully. ---"
 
-# 1b. push local changes to remote branch tracking local branch
-echo "-- Pushing local changes to remote local.. ---"
-git push
-echo "--- Changes pushed to remote local.. ---"
+# # 1b. push local changes to remote branch tracking local branch
+# echo "-- Pushing local changes to remote local.. ---"
+# git push
+# echo "--- Changes pushed to remote local.. ---"
 
 # 2. Switch to the local 'master' branch
 echo "--- Switching to the 'master' branch... ---"
