@@ -1,7 +1,7 @@
 module "networking" {
   source = "../core_modules/networking"
 
-  environment           = "prod"
+  environment = "prod"
 
   vpc_cidr_block        = var.vpc_cidr_block
   public_subnet_count   = var.public_subnet_count

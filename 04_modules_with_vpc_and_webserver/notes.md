@@ -14,13 +14,10 @@
   ```
 
 ### Key Changes:
-1. **Removed database remote state**:
-   - Previously: Used `data.terraform_remote_state` to access MySQL state
-   - Now: Database resources are created within the same environment state
-2. **State isolation**:
+1. **State isolation**:
    - No shared state between environments
    - Each environment is fully self-contained
-3. **Simplified dependencies**:
+2. **Simplified dependencies**:
    - No cross-environment state references
    - Resources are managed within their environment's context
 
@@ -54,7 +51,7 @@
 
 2. **Autoscaling Schedules**:
    - Production has scheduled scaling policies:
-     ```hcl:04_modules_with_vpc_and_webserver/prod/services/webserver-cluster/main.tf
+     ```hcl:04_modules_with_vpc_and_webserver/prod/webserver/main.tf
      resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
        scheduled_action_name = "scale-out-during-business-hours"
        min_size = 2
@@ -104,7 +101,7 @@ Terraform modules are not meant to be deployed directly. Instead, you should be 
 This project uses a reusable module structure:
 
 ### Child Module
-This directory (`modules/services/webserver-cluster`) contains the reusable child module that defines:
+This directory (`core_modules/webserver`) contains the reusable child module that defines:
 - Auto-scaling group configuration
 - Load balancer setup
 - Security group rules
@@ -180,7 +177,7 @@ For example, if the root module calls the child module like this:
 **`stage/webserver/main.tf`**
 ```terraform
 module "webserver_cluster" {
-  source = "../../../modules/services/webserver-cluster"
+  source = "../../../core_modules/webserver"
 
   cluster_name   = "web-cluster-stage"
   instance_type  = "t2.micro"
@@ -193,7 +190,7 @@ module "webserver_cluster" {
 
 Then the child module's `variables.tf` must declare all those inputs.
 
-**`modules/services/webserver-cluster/variables.tf`**
+**`core_modules/webserver/variables.tf`**
 ```terraform
 variable "cluster_name" {
   description = "The name for the webserver cluster and associated resources."
@@ -393,12 +390,12 @@ The VPC CIDR value flows through this chain:
    ```
 
 4. **Module variables.tf** receives value:
-   ```hcl:04_modules_with_vpc_and_webserver/modules/services/webserver-cluster/variables.tf
+   ```hcl:04_modules_with_vpc_and_webserver/core_modules/webserver/variables.tf
    variable "vpc_cidr_block" {}
    ```
 
 5. **VPC resource** uses value:
-   ```hcl:04_modules_with_vpc_and_webserver/modules/services/webserver-cluster/vpc.tf
+   ```hcl:04_modules_with_vpc_and_webserver/core_modules/webserver/vpc.tf
    resource "aws_vpc" "custom_vpc" {
      cidr_block = var.vpc_cidr_block
    }

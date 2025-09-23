@@ -123,3 +123,21 @@ deeper dive on tf modules
 https://developer.hashicorp.com/terraform/tutorials/modules
 https://www.gruntwork.io/blog/how-to-create-reusable-infrastructure-with-terraform-modules
 https://devopscube.com/terraform-module-best-practices/
+
+## Terraform state
+To understand current inventory tracked in state (this is ls) `tf state list`
+To see all resources (in detail) `tf show`
+To see details of particular resource `tf state show aws_key_pair.deployer`
+To replace only one resource rather than destroying everything and re-building everything : `tf apply -replace=aws_key_pair.deployer`. use case of this : OS patching, IP address changes as the same resource is destroyed and then re-built from ground up. This is the modern replacement of taint command
+To see dry run of destrory : `tf plan -destroy`
+change value of one variable in resource `tf apply -var "var_name=var_value"`. You cannot create new variable through this only change value of existing variable
+
+# Variable Precedence
+Here is the corrected precedence order for Terraform variables, from highest to lowest. Terraform loads variables from multiple sources and merges them, with later sources overriding values from earlier ones.
+
+*   **Command-line flags:** Values provided via the `-var` and `-var-file` options on the command line have the highest precedence and will override all other values.
+*   **`*.auto.tfvars` and `*.auto.tfvars.json`:** Any files ending with these suffixes are loaded automatically. They are processed in alphabetical order of their filenames.
+*   **`terraform.tfvars.json`:** If this file is present, its contents are loaded automatically. It will override values set in `terraform.tfvars`.
+*   **`terraform.tfvars`:** This file is also automatically loaded if it exists.
+*   **Environment variables:** Terraform reads environment variables prefixed with `TF_VAR_` (e.g., `TF_VAR_region="us-east-1"`).
+*   **Variable Defaults:** The `default` argument within a `variable` block in your `.tf` files has the lowest precedence.
