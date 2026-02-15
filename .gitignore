@@ -38,3 +38,9 @@ Thumbs.db
 
 # Lock file
 .terraform.lock.hcl
+
+# Secrets
+*.pem
+
+# Dave Prowse Oreilly Course
+100_dp_instructions

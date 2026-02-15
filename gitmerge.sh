@@ -7,14 +7,25 @@ set -e
 # Ensure that pipelines fail on the first command that fails, not the last.
 set -o pipefail
 
+# Detect current branch and verify we're in a git repo
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+  echo "Error: not a git repository." >&2
+  exit 1
+fi
+
 # Store the name of the current branch in a variable.
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 echo "--- Currently on branch: $CURRENT_BRANCH ---"
 
 # 1. Commit local changes
 echo "--- Committing local changes... ---"
-git commit -am "added gitmerge for git automation"
+git diff --quiet || git commit -am "placeholder"
 echo "--- Changes committed successfully. ---"
+
+# 1b. push local changes to remote branch tracking local branch
+echo "-- Pushing local changes to remote local.. ---"
+git push -u origin "$CURRENT_BRANCH"
+echo "--- Changes pushed to remote local.. ---"
 
 # 2. Switch to the local 'master' branch
 echo "--- Switching to the 'master' branch... ---"
